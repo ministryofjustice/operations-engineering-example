@@ -4,9 +4,6 @@
 
 This repository contains a minimal example application to showcase deployment.
 
-
-
-
 ### Read about the GitHub repository standards
 
 Familiarise yourself with the Ministry of Justice GitHub Repository Standards. These standards ensure consistency, maintainability, and best practices across all our repositories.
@@ -26,7 +23,6 @@ The badge demonstrates that your repository is compliant with MoJ's standards. P
 ### Manage Outside Collaborators
 
 To add an Outside Collaborator to the repository, follow the guidelines detailed [here](https://github.com/ministryofjustice/github-collaborators).
-
 
 ### Configure Dependabot
 
