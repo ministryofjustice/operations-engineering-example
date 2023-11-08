@@ -20,7 +20,7 @@ data:
   test: {{ quote 4 }}
   test2: {{ quote true }}
   test3: {{ repeat 3 "hi" | quote }}
-  test4: {{ "hi" | repeat 3 | squote }}
-  test5: {{ "!" | repeat 5 | cat "It's" "a" "wonderful" "life" | quote }}
+  # test4: {{ "hi" | repeat 3 | squote }}
+  # test5: {{ "!" | repeat 5 | cat "It's" "a" "wonderful" "life" | quote }}
   snack: {{ .Values.favourite.snack | default "crisps" | quote }}
   missingKey: {{ .Values.favourite.missingKey | default "E major" | quote }}
