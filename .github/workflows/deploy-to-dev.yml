@@ -72,8 +72,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ needs.build-push.outputs.ecr-registry }}
         run: |
-          helm upgrade operations-engineering-reports-dev \
-            helm/operations-engineering-reports \
+          helm upgrade operations-engineering-example-dev \
+            helm/operations-engineering-example \
             --install \
             --force \
             --wait \
