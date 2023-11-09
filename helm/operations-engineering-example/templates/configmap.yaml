@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: operations-engineering-example-{{ .Release.Name }}-configmap
+  namespace: {{ .Release.Namespace }}
+  annotations: {
+    releaseService: {{ .Release.Service }},
+    helmGitCommit: {{ .Capabilities.HelmVersion.GitCommit }},
+    helmSemver: {{ .Capabilities.HelmVersion.Version }},
+    templateName: {{ .Template.Name }},
+    templateBasePath: {{ .Template.BasePath }}
+
+  }
+data:
+  myvalue: "Hello Operations Engineering!"
+  drink: {{ .Values.favourite.drink | quote | swapcase }}
+  food: {{ .Values.favourite.food | upper | quote }}
+  releaseIsUpgrade: {{ .Release.IsUpgrade | quote | upper }}
+  releaseRevison: {{ .Release.Revision | quote }}
+  test: {{ quote 4 }}
+  test2: {{ quote true }}
+  test3: {{ repeat 3 "hi" | quote }}
+  # test4: {{ "hi" | repeat 3 | squote }}
+  # test5: {{ "!" | repeat 5 | cat "It's" "a" "wonderful" "life" | quote }}
+  snack: {{ .Values.favourite.snack | default "crisps" | quote }}
+  missingKey: {{ .Values.favourite.missingKey | default "E major" | quote }}
