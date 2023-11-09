@@ -1,22 +1,26 @@
-# name: Deploy to Prod
+name: Deploy to Prod
 
-# permissions:
-#   contents: write
+permissions:
+  contents: write
 
+on:
+  - pull_request
 # on:
 #   push:
 #     tags:
 #       - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
 
-# env:
-#   KUBE_CLUSTER: ${{ secrets.PROD_KUBE_CLUSTER }}
-#   KUBE_NAMESPACE: ${{ secrets.PROD_KUBE_NAMESPACE }}
-#   KUBE_CERT: ${{ secrets.PROD_KUBE_CERT }}
-#   KUBE_TOKEN: ${{ secrets.PROD_KUBE_TOKEN }}
+env:
+  ENV: prod
+  KUBE_CLUSTER: ${{ secrets.PROD_KUBE_CLUSTER }}
+  KUBE_NAMESPACE: ${{ secrets.PROD_KUBE_NAMESPACE }}
+  KUBE_CERT: ${{ secrets.PROD_KUBE_CERT }}
+  KUBE_TOKEN: ${{ secrets.PROD_KUBE_TOKEN }}
 
-#   IMAGE_TAG: ${{ github.ref_name }}
-#   ECR_REGISTRY: ${{ vars.ECR_REGISTRY }}
-#   ECR_REPOSITORY: ${{ vars.PRODUCTION_ECR_REPOSITORY }}
+  IMAGE_TAG: ${{ github.ref_name }}
+  ECR_REPOSITORY: ${{ vars.PRODUCTION_ECR_REPOSITORY }}
+  ECR_REGION: ${{ vars.PRODUCTION_ECR_REGION }}
+  ECR_ROLE_TO_ASSUME: ${{ secrets.PRODUCTION_ECR_ROLE_TO_ASSUME }}
 
 #   AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
 #   AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
@@ -25,74 +29,80 @@
 #   OPS_ENG_REPORTS_ENCRYPT_KEY: ${{ secrets.PROD_OPS_ENG_REPORTS_ENCRYPT_KEY }}
 #   OPERATIONS_ENGINEERING_REPORTS_API_KEY: ${{ secrets.PROD_OPERATIONS_ENGINEERING_REPORTS_API_KEY }}
 
-# jobs:
-#   build-push:
-#     runs-on: ubuntu-latest
-#     permissions:
-#       id-token: write
-#       contents: write
-#     steps:
-#       - uses: actions/checkout@v4
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    outputs:
+      ecr-registry: ${{ steps.login-ecr.outputs.registry }}   
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.ECR_REGION }}
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        id: login-ecr
+      - name: Build and push docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
+          docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
-#       - name: Release
-#         uses: softprops/action-gh-release@v1
-#         with:
-#           generate_release_notes: true
+  deploy-to-prod:
+    needs: build-push
+    runs-on: ubuntu-latest
+    container: alpine/k8s:1.23.17
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Authenticate to the cluster
+        run: |
+          echo "${KUBE_CERT}" > ca.crt
+          kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
+          kubectl config set-credentials deploy-user --token=${KUBE_TOKEN}
+          kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${KUBE_NAMESPACE}
+          kubectl config get-contexts
+          kubectl config use-context ${KUBE_CLUSTER}
 
-#       - uses: aws-actions/configure-aws-credentials@v4
-#         with:
-#           role-to-assume: ${{ secrets.PRODUCTION_ECR_ROLE_TO_ASSUME }}
-#           aws-region: eu-west-2
+      - name: Helm install
+        env:
+          ECR_REGISTRY: ${{ needs.build-push.outputs.ecr-registry }}
+        run: |
+          helm upgrade operations-engineering-example-${ENV} \
+            helm/operations-engineering-example \
+            --install \
+            --atomic \
+            --force \
+            --wait \
+            --namespace ${KUBE_NAMESPACE} \
+            --set replicaCount=3 \
+            --set image.tag=${IMAGE_TAG} \
+            --set image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY} \
+            --set ingress.hosts={operations-engineering-example-${ENV}.cloud-platform.service.justice.gov.uk}
+  
+        # --set application.auth0ClientId=${AUTH0_CLIENT_ID} \
+        # --set application.auth0ClientSecret=${AUTH0_CLIENT_SECRET} \
+        # --set application.appSecretKey=${FLASK_APP_SECRET} \
+        # --set application.encryptionKey=${OPS_ENG_REPORTS_ENCRYPT_KEY} \
+        # --set application.apiKey=${OPERATIONS_ENGINEERING_REPORTS_API_KEY} \
 
-#       - uses: aws-actions/amazon-ecr-login@v2
-#         id: login-ecr
-
-#       - run: |
-#           docker build -t ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG} .
-#           docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
-
-#   deploy-to-prod:
-#     needs: build-push
-#     runs-on: ubuntu-latest
-#     container: alpine/k8s:1.23.17
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-
-#       - name: Authenticate to the cluster
-#         run: |
-#           echo "${KUBE_CERT}" > ca.crt
-#           kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
-#           kubectl config set-credentials deploy-user --token=${KUBE_TOKEN}
-#           kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${KUBE_NAMESPACE}
-#           kubectl config get-contexts
-#           kubectl config use-context ${KUBE_CLUSTER}
-
-#       - name: Helm install
-#         run: |
-#           helm upgrade operations-engineering-reports-prod \
-#             helm/operations-engineering-reports \
-#             --install \
-#             --atomic \
-#             --force \
-#             --wait \
-#             --namespace ${KUBE_NAMESPACE} \
-#             --set replicaCount=3 \
-#             --set image.tag=${IMAGE_TAG} \
-#             --set application.auth0ClientId=${AUTH0_CLIENT_ID} \
-#             --set application.auth0ClientSecret=${AUTH0_CLIENT_SECRET} \
-#             --set application.appSecretKey=${FLASK_APP_SECRET} \
-#             --set application.encryptionKey=${OPS_ENG_REPORTS_ENCRYPT_KEY} \
-#             --set application.apiKey=${OPERATIONS_ENGINEERING_REPORTS_API_KEY} \
-#             --set image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY} \
-#             --set ingress.hosts={operations-engineering-reports-prod.cloud-platform.service.justice.gov.uk,operations-engineering-reports.cloud-platform.service.justice.gov.uk}
-
-#       - name: Report failure to Slack
-#         if: always()
-#         uses: ravsamhq/notify-slack-action@v2
-#         with:
-#           status: ${{ job.status }}
-#           notify_when: "failure"
-#           notification_title: "Failed to deploy the reports application to production"
-#         env:
-#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Report failure to Slack
+      #   if: always()
+      #   uses: ravsamhq/notify-slack-action@v2
+      #   with:
+      #     status: ${{ job.status }}
+      #     notify_when: "failure"
+      #     notification_title: "Failed to deploy the example application to production"
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
