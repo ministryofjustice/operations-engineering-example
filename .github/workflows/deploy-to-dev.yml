@@ -14,7 +14,6 @@ env:
   KUBE_TOKEN: ${{ secrets.DEV_KUBE_TOKEN }}
 
   IMAGE_TAG: ${{ github.sha }}
-  # ECR_REGISTRY: ${{ vars.ECR_REGISTRY }} I don't have this in the repo
   ECR_REPOSITORY: ${{ vars.DEVELOPMENT_ECR_REPOSITORY }}
   ECR_REGION: ${{ vars.DEVELOPMENT_ECR_REGION }}
   ECR_ROLE_TO_ASSUME: ${{ secrets.DEVELOPMENT_ECR_ROLE_TO_ASSUME }}
@@ -39,8 +38,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.DEVELOPMENT_ECR_ROLE_TO_ASSUME }} #$ECR_ROLE_TO_ASSUME
-          aws-region: eu-west-2 #${ECR_REGION}
+          role-to-assume: ${{ env.ECR_ROLE_TO_ASSUME }} #${{ secrets.DEVELOPMENT_ECR_ROLE_TO_ASSUME }} #$ECR_ROLE_TO_ASSUME
+          aws-region: ${{ env.ECR_REGION }} #eu-west-2 #${ECR_REGION}
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
