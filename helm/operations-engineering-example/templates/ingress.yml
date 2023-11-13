@@ -3,15 +3,15 @@ kind: Ingress
 metadata:
   name: example-ingress
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: example-ingress-${NAMESPACE}-green
+    external-dns.alpha.kubernetes.io/set-identifier: "{{ .Values.ingress.identifier }}"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
   ingressClassName: default
   tls:
     - hosts:
-        - ${NAMESPACE}.apps.live.cloud-platform.service.justice.gov.uk
+        - {{ .Values.ingress.namespace }}.apps.live.cloud-platform.service.justice.gov.uk
   rules:
-    - host: ${NAMESPACE}.apps.live.cloud-platform.service.justice.gov.uk
+    - host: {{ .Values.ingress.namespace }}.apps.live.cloud-platform.service.justice.gov.uk
       http:
         paths:
           - path: /
