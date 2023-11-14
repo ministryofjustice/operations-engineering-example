@@ -44,7 +44,7 @@ image: # These are interpolated at runtime in deploy workflows
 #   port: 80
 
 ingress:
-  identifier: exmaple-app-giraffe-green
+  identifier: example-ingress-operations-engineering-example-dev-green
   namespace: operations-engineering-example-dev
   enabled: false
   className: ""
