@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: example-ingress
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: "{{ .Values.ingress.identifier }}"
+    external-dns.alpha.kubernetes.io/set-identifier: {{ .Values.ingress.identifier }}
     external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
   ingressClassName: default
