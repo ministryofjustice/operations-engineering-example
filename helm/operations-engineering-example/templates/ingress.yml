@@ -9,9 +9,9 @@ spec:
   ingressClassName: default
   tls:
     - hosts:
-        - {{ .Values.ingress.host }}.apps.live.cloud-platform.service.justice.gov.uk
+        - {{ .Values.ingress.host }}
   rules:
-    - host: {{ .Values.ingress.host }}.apps.live.cloud-platform.service.justice.gov.uk
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
