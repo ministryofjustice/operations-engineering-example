@@ -5,7 +5,7 @@ metadata:
   labels:
     app: example
 spec:
-  replicas: 3
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: example
