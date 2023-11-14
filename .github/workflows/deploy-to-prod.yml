@@ -87,7 +87,7 @@ jobs:
             --set replicaCount=3 \
             --set image.tag=${IMAGE_TAG} \
             --set image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY} \
-            --set ingress.host=operations-engineering-example-${ENV}.cloud-platform.service.justice.gov.uk
+            --set ingress.host=operations-engineering-example-${ENV}.cloud-platform.service.justice.gov.uk \
             --set ingress.identifier=example-ingress-operations-engineering-example-${ENV}-green
 
   

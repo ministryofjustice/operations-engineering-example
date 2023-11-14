@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+env: ""
+
+
 image: # These are interpolated at runtime in deploy workflows
   repository: ""
   tag: ""
