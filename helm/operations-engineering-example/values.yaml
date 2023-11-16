@@ -11,7 +11,7 @@ image: # These are interpolated at runtime in deploy workflows
   repository: ""
   tag: ""
 
-port: 4566
+port: 1551
 targetPort: 5000
 
 ingress:

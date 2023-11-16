@@ -28,11 +28,12 @@ ENV PYTHONUNBUFFERED 1
 # Non-root user
 USER 1051
 
-EXPOSE 4566
+# Port of choice
+EXPOSE 1551
 ENV FLASK_APP=app/hello.py
 CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 
 # Use in production
 # ENTRYPOINT gunicorn app:app \
-#   --bind 0.0.0.0:4567 \
+#   --bind 0.0.0.0:1551 \
 #   --timeout 120
