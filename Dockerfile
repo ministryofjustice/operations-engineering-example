@@ -30,10 +30,10 @@ USER 1051
 
 # Port of choice
 EXPOSE 1551
-ENV FLASK_APP=app/hello.py
-CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
+# ENV FLASK_APP=app/hello.py
+# CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 
 # Use in production
-# ENTRYPOINT gunicorn app:app \
-#   --bind 0.0.0.0:1551 \
-#   --timeout 120
+ENTRYPOINT gunicorn app:app \
+  --bind 0.0.0.0:1551 \
+  --timeout 120
