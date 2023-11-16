@@ -25,7 +25,7 @@ RUN pip3 install --upgrade pip && \
 # USER 1051
 
 EXPOSE 5111
-ENV FALSK_APP=hello.py
+ENV FLASK_APP=hello.py
 CMD ["flask", "run", "--host", "0.0.0.0"]
 
 
