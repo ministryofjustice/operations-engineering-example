@@ -10,13 +10,16 @@ env: ""
 image: # These are interpolated at runtime in deploy workflows
   repository: ""
   tag: ""
-# service:
-#   type: ClusterIP
-#   port: 80
 
 ingress:
   identifier: ""
   host: ""
+
+service:
+  type: ClusterIP
+  port: 4567
+
+
   # enabled: false
   # className: ""
   # annotations: {}

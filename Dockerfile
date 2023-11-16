@@ -24,11 +24,11 @@ RUN pip3 install --upgrade pip && \
 
 # USER 1051
 
-EXPOSE 5111
-ENV FLASK_APP=hello.py
-CMD ["flask", "run", "--host", "0.0.0.0"]
+EXPOSE 4567
+# ENV FLASK_APP=hello.py
+# CMD ["flask", "run", "--host", "0.0.0.0"]
 
 
-# ENTRYPOINT gunicorn operations_engineering_reports:app \
-#   --bind 0.0.0.0:4567 \
-#   --timeout 120
+ENTRYPOINT gunicorn operations_engineering_reports:app \
+  --bind 0.0.0.0:4567 \
+  --timeout 120
