@@ -12,18 +12,22 @@ WORKDIR /app/operations-engineering-example
 #   --update \
 #   build-base
 
-# Copy dirs/files from the repo to the container working directory, name them the same
+# Copy dirs/files from the repo to the container working directory
 COPY requirements.txt requirements.txt
 COPY app app
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir -r requirements.txt
 
 # ENV PYTHONDONTWRITEBYTECODE 1
 # ENV PYTHONUNBUFFERED 1
 
 # USER 1051
 
-# EXPOSE 4567
+EXPOSE 5111
+ENV FALSK_APP=hello.py
+CMD ["flask", "run", "--host", "0.0.0.0"]
+
 
 # ENTRYPOINT gunicorn operations_engineering_reports:app \
 #   --bind 0.0.0.0:4567 \
