@@ -30,7 +30,7 @@ USER 1051
 
 # Port of choice
 EXPOSE 1551
-# ENV FLASK_APP=app/hello.py
+ENV FLASK_APP=app/hello.py
 # CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 
 # Use in production hello:app = from hello import app (wsgi callable)
