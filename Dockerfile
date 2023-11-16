@@ -29,10 +29,10 @@ ENV PYTHONUNBUFFERED 1
 USER 1051
 
 EXPOSE 4567
-# ENV FLASK_APP=app/hello.py
-# CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
+ENV FLASK_APP=app/hello.py
+CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 
 # Use in production
-ENTRYPOINT gunicorn app:app \
-  --bind 0.0.0.0:4567 \
-  --timeout 120
+# ENTRYPOINT gunicorn app:app \
+#   --bind 0.0.0.0:4567 \
+#   --timeout 120

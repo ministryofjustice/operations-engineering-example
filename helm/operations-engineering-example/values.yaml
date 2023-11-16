@@ -11,13 +11,14 @@ image: # These are interpolated at runtime in deploy workflows
   repository: ""
   tag: ""
 
+port: 4567
+
 ingress:
   identifier: ""
   host: ""
 
 service:
   type: ClusterIP
-  port: 4567
 
 
   # enabled: false

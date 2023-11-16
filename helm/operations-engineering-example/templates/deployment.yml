@@ -18,4 +18,4 @@ spec:
         - name: example
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.port }}
