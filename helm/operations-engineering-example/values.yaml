@@ -12,6 +12,7 @@ image: # These are interpolated at runtime in deploy workflows
   tag: ""
 
 port: 4567
+targetPort: 5000
 
 ingress:
   identifier: ""
