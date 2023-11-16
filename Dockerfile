@@ -28,7 +28,7 @@ ENV PYTHONUNBUFFERED 1
 # Non-root user
 USER 1051
 
-EXPOSE 4567
+EXPOSE 4566
 ENV FLASK_APP=app/hello.py
 CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 
