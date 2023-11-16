@@ -33,7 +33,7 @@ EXPOSE 1551
 # ENV FLASK_APP=app/hello.py
 # CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 
-# Use in production
-ENTRYPOINT gunicorn app:app \
+# Use in production hello:app = from hello import app (wsgi callable)
+ENTRYPOINT gunicorn hello:app \
   --bind 0.0.0.0:1551 \
   --timeout 120
