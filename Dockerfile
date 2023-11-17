@@ -1,7 +1,7 @@
 FROM python:3.12.0-alpine3.17
 
 # Set working directory in the container
-WORKDIR /app
+WORKDIR /app/operations-engineering-example
 
 # Set to run as non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup -u 1051
@@ -16,7 +16,7 @@ RUN \
 
 # Copy dirs/files from the repo to the container working directory
 COPY requirements.txt requirements.txt
-COPY app app
+COPY ops_eng_app ops_eng_app
 
 RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt
@@ -32,10 +32,10 @@ USER 1051
 EXPOSE 1551
 # ENV FLASK_APP=app/hello.py
 # CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
-CMD ["gunicorn", "--bind", "0.0.0.0:1551", "app:create_app()"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:1551", "app:create_app()"]
 
 # Use in production hello:app = from hello import app (wsgi callable)
 # figure out what gunicorn is expecting...
-# ENTRYPOINT gunicorn app:app \
-#   --bind 0.0.0.0:1551 \
-#   --timeout 120
+ENTRYPOINT gunicorn operations_engineering_example:app \
+  --bind 0.0.0.0:1551 \
+  --timeout 120
