@@ -1,7 +1,7 @@
 FROM python:3.12.0-alpine3.17
 
 # Set working directory in the container
-WORKDIR /app/operations-engineering-example
+WORKDIR /app
 
 # Set to run as non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup -u 1051
