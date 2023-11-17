@@ -12,7 +12,7 @@ image: # These are interpolated at runtime in deploy workflows
   tag: ""
 
 port: 1551
-targetPort: 1551 # 5000
+targetPort: 5000 # reports has this matching port
 
 ingress:
   identifier: ""
