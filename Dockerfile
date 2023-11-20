@@ -35,8 +35,10 @@ EXPOSE 1551
 # CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
 # CMD ["gunicorn", "--bind", "0.0.0.0:1551", "app:create_app()"]
 
+CMD ["gunicorn", "--bind", "0.0.0.0:1551", "ops_eng_app:app"]
+
 # Use in production hello:app = from hello import app (wsgi callable)
 # figure out what gunicorn is expecting...
-ENTRYPOINT gunicorn operations_engineering_example:app \
-  --bind 0.0.0.0:1551 \
-  --timeout 120
+# ENTRYPOINT gunicorn operations_engineering_example:app \
+#   --bind 0.0.0.0:1551 \
+#   --timeout 120
