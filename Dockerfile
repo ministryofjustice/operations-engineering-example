@@ -17,13 +17,11 @@ RUN \
 # Copy dirs/files from the repo to the container working directory
 COPY requirements.txt requirements.txt
 COPY ops_eng_app ops_eng_app
-# COPY operations_engineering_example.py operations_engineering_example.py
 
 RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt
 
-# ENV PYTHONDONTWRITEBYTECODE 1
-# send logs direct to terminal
+# Send logs direct to terminal
 ENV PYTHONUNBUFFERED 1
 
 # Non-root user
@@ -31,14 +29,8 @@ USER 1051
 
 # Port of choice
 EXPOSE 1551
-# ENV FLASK_APP=app/hello.py
-# CMD ["flask", "--app", "app/hello", "run", "--host", "0.0.0.0"]
-# CMD ["gunicorn", "--bind", "0.0.0.0:1551", "app:create_app()"]
-
-# CMD ["gunicorn", "--bind", "0.0.0.0:1551", "--timeout", "120", "ops_eng_app:app"]
 
 # Use in production, bind to another port so not to run as root
-# hello:app = from hello import app (wsgi callable)
 ENTRYPOINT gunicorn ops_eng_app:app \
   --bind 0.0.0.0:1551 \
   --timeout 120
