@@ -1,7 +1,10 @@
-from flask import Flask
+from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_gudetama():
-    return "<p>Hello Gudetama! Better eaten than rotten! Learn to rest not to quit.</p>"
+@app.route("/", methods=["GET", "POST"])
+def gudetama(): 
+    return render_template("index.html")
+
+# if __name__ == '__main__':
+#     app.run()
