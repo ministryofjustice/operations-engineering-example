@@ -16,7 +16,8 @@ RUN \
 
 # Copy dirs/files from the repo to the container working directory
 COPY requirements.txt requirements.txt
-COPY ops_eng_app ops_eng_app
+COPY app app
+# COPY ops_eng_app ops_eng_app
 
 RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir --upgrade -r requirements.txt

@@ -27,6 +27,9 @@ setup:
 preview:
 	flask --app ops_eng_app/__init__ --debug run
 
+app:
+	docker compose up --build
+
     
 
 # venv: requirements.txt requirements-test.txt
@@ -86,4 +89,4 @@ preview:
 # stop:
 # 	docker-compose down -v --remove-orphans
 
-.PHONY: preview setup help # dev stop venv lint test format local prod clean-test all
+.PHONY: preview setup help app# dev stop venv lint test format local prod clean-test all
