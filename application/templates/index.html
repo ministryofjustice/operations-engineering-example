@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
+{% block beforeContent %}
+{{ super() }}
+{% endblock %}
+
 {% block content %}
-<html>
-<body>
+  {{ super() }}
+  <html>
+  <body>
 
-<h1>Good morning!</h1>
+  <h1>Good afternoon!</h1>
 
-<p>I hope you're having a lovely day.</p>
+  <p>I hope you're having a lovely day.</p>
 
-<img src="{{url_for('static', filename='images/govuk-opengraph-image.png')}}" width="256"/>
+  <img src="{{url_for('static', filename='images/govuk-opengraph-image.png')}}" width="256"/>
 
-</body>
-</html>
+  </body>
+  </html>
 {% endblock %}

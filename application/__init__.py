@@ -6,8 +6,11 @@ from flask import Flask
 from flask_cors import CORS
 from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
 
+from config import Config
+
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
 app.jinja_loader = ChoiceLoader(
     [
