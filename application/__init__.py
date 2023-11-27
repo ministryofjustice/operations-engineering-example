@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.jinja_loader = ChoiceLoader(
     [
-        PackageLoader("ops_eng_app"),
+        PackageLoader("application"),
         PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
     ]
 )

@@ -17,7 +17,7 @@ venv.bak/
 terraform.tfstate
 
 ### GOV.UK Frontend ###
-ops_eng_app/static/*
+application/static/*
 govuk_components*
 
 ### Flask ###

@@ -16,7 +16,7 @@ assets_js_path = Path("application/assets/js")
 assets_css_path = Path("application/assets/css")
 assets_image_path = Path("application/assets/images")
 
-dirpath = Path("ops_eng_app/static")
+dirpath = Path("application/static")
 css_path = dirpath / "stylesheets"
 js_path = dirpath / "javascript"
 image_path = dirpath / "images"
@@ -55,4 +55,4 @@ for each_file in Path(assets_image_path).glob("*.png"):
 
 os.remove(zip_file)
 print("Finished")
-print("If version has changed update the versions in build.py and ops_eng_app/templates/base.html")
+print("If version has changed update the versions in build.py and application/templates/base.html")

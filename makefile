@@ -25,7 +25,7 @@ setup:
 	@venv/bin/pip3 install -r requirements.txt
 
 preview:
-	flask --app ops_eng_app/__init__ --debug run
+	flask --app application/__init__ --debug run
 
 app:
 	docker compose up --build
