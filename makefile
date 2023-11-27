@@ -89,4 +89,4 @@ app:
 # stop:
 # 	docker-compose down -v --remove-orphans
 
-.PHONY: preview setup help app# dev stop venv lint test format local prod clean-test all
+.PHONY: preview setup help app # dev stop venv lint test format local prod clean-test all

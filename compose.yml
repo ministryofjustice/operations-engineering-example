@@ -1,6 +1,6 @@
 services:
   web:
-    container_name: ops-eng-app-template
+    container_name: app
     build: .
     restart: always
     environment:
@@ -8,21 +8,12 @@ services:
       - CONTACT_PHONE=00000000000
       - DEPARTMENT_NAME=Ministry of Justice
       - DEPARTMENT_URL=https://www.gov.uk/government/organisations/ministry-of-justice
-      - REDIS_URL=redis://cache:6379
+      - REDIS_URL=redis://cache:6336
       - SECRET_KEY=9e9f58480a7a917d4670ed862fdb93dc32b2cb8f867541299e4ef17fdbcf6730
       - SERVICE_NAME=Operations Engineering Flask Application Template
       - SERVICE_PHASE=Dev
       - SERVICE_URL=https://operations-engineering-example-dev.cloud-platform.service.justice.gov.uk/
     ports:
-      - "8000:8000"
+      - 1551:1551
     volumes:
       - .:/home/containeruser
-    depends_on:
-      - cache
-  cache:
-    container_name: redis-app
-    image: redis:7.0-alpine
-    restart: always
-    ports:
-      - 6379:6379
-  
