@@ -14,7 +14,7 @@ RUN \
   --update \
   build-base
 
-# Copy dirs/files from the repo to the container wd
+# Copy dirs/files from the repo to the container working directory
 COPY requirements.txt requirements.txt
 COPY application application
 COPY build.py build.py
