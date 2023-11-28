@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 # These are interpolated at runtime in the deploy workflows.
 
+teamName: "operations-engineering"
+name: "example"
+
 replicaCount: 1
 port: 1551
 targetPort: 1551

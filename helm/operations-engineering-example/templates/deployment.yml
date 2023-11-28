@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example-deployment
+  name: {{ .Values.name }}-deployment
   labels:
-    app: example
+    app:  {{ .Values.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: example
+      app:  {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: example
+        app:  {{ .Values.name }}
     spec:
       containers:
-        - name: example
+        - name:  {{ .Values.name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
             - containerPort: {{ .Values.port }}
