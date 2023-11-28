@@ -1,0 +1,9 @@
+services:
+  web:
+    container_name: app
+    build: .
+    restart: always
+    ports:
+      - 1551:1551
+    volumes:
+      - .:/home/containeruser
