@@ -24,10 +24,35 @@ To develop, deploy or run this app you will need to install:
 
 ## How to use
 
-- decide on the name for your app
-- create corresponding dev/prod namespaces on Cloud Platform
-- create a repo to house your app's source code; copy the contents of this repo into there
-- change refs to namespaces...
+### Create a new application
+
+We rely on naming conventions to facilitate use of this template. All Operations Engineering applications are named in the form `<TEAM_NAME>-<NAME>`, where `TEAM_NAME=operations-engineering`, hence `operations-engineering-example`, `operations-engineering-reports` etc. This convention is followed throughout the code in the kubernetes namespace, helm chart, and GitHub deployment workflows. Thus to create a new application choose the value of `<NAME>` and proceed,
+
+- Create a repo called `<TEAM_NAME>-<NAME>`, for example, `operations-engineering-example`
+- Copy the contents of this repo into it and make the following changes
+
+    1. In `.github/workflows/deploy-to-dev.yml` and `.github/workflows/deploy-to-prod.yml` update the value of `NAME` under the `env` section at the top of the file:
+
+        ```   
+        env:
+          TEAM_NAME: operations-engineering
+          NAME: example
+          ENV: dev
+        ```
+    1. Update the subdirectory `helm/operations-engineering-example` to `helm/<TEAM_NAME>-<NAME>`, this is the helm chart name.
+    1. In `helm/Chart.yaml` update the value of `name` with `<TEAM_NAME>-<NAME>`. 
+    1. In `helm/<TEAM_NAME>-<NAME>/values.yaml` update the values of `teamName` and `name` at the top of the file with `<TEAM_NAME>` and `<NAME>` respectively.
+    1. In `config.py` update as required, for example `CONTACT_EMAIL`, `SERVICE_NAME`, `SERVICE_URL`. This file provides configuration for the GOVUK frontend.
+    1. Update `README.md`.
+
+- Create Cloud Platform namespaces called  `<TEAM_NAME>-<NAME>-<ENV>` for example, `operations-engineering-example-dev` and `operations-engineering-example-prod` and link to the repo. Follow instructions here: [Creating a Cloud Platform environment](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/env-create.html#creating-a-cloud-platform-environment).
+- The app is available at `<TEAM_NAME>-<NAME>-<ENV>.cloud-platform.service.justice.gov.uk`
+
+### Generic settings
+
+The flask app itself is deliberately generically named `application` and does not need to be changed. If you choose to change it then corresponding changes are required in `build.py`, `Dockerfile`, `makefile` and possibly elsewhere. The app is hardcoded to run and listen on port `1551` as appuser `1051` (see `Dockerfile` and `compose.yaml`).
+
+See below for how deployment to dev and prod is triggered. 
 
 
 ## Deployment
