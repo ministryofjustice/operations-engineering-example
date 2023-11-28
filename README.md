@@ -40,6 +40,7 @@ We rely on naming conventions to facilitate use of this template. All Operations
           ENV: dev
         ```
     1. Update the subdirectory `helm/operations-engineering-example` to `helm/<TEAM_NAME>-<NAME>`, this is the helm chart name.
+    1. In `helm/Chart.yaml` update the value of `name` with `<TEAM_NAME>-<NAME>`. 
     1. In `helm/<TEAM_NAME>-<NAME>/values.yaml` update the values of `teamName` and `name` at the top of the file with `<TEAM_NAME>` and `<NAME>` respectively.
     1. In `config.py` update as required, for example `CONTACT_EMAIL`, `SERVICE_NAME`, `SERVICE_URL`. This file provides configuration for the GOVUK frontend.
     1. Update `README.md`.
