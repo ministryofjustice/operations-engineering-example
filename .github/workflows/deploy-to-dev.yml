@@ -8,6 +8,8 @@ on:
   #     - "main"
 
 env:
+  TEAM_NAME: operations-engineering
+  NAME: example
   ENV: dev
   KUBE_CLUSTER: ${{ secrets.DEV_KUBE_CLUSTER }}
   KUBE_NAMESPACE: ${{ secrets.DEV_KUBE_NAMESPACE }}
@@ -65,8 +67,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ needs.build-push.outputs.ecr-registry }}
         run: |
-          helm upgrade operations-engineering-example-${ENV} \
-            helm/operations-engineering-example \
+          helm upgrade ${TEAM_NAME}-${NAME}-${ENV} \
+            helm/${TEAM_NAME}-${NAME} \
             --install \
             --force \
             --wait \
@@ -74,5 +76,5 @@ jobs:
             --namespace ${KUBE_NAMESPACE} \
             --set image.tag=${IMAGE_TAG} \
             --set image.repository=${ECR_REGISTRY}/${ECR_REPOSITORY} \
-            --set ingress.host=operations-engineering-example-${ENV}.cloud-platform.service.justice.gov.uk \
-            --set ingress.identifier=example-ingress-operations-engineering-example-${ENV}-green
+            --set ingress.host=${TEAM_NAME}-${NAME}-${ENV}.cloud-platform.service.justice.gov.uk \
+            --set ingress.identifier=${NAME}-ingress-${TEAM_NAME}-${NAME}-${ENV}-green
