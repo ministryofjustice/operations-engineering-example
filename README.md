@@ -81,9 +81,9 @@ The production namespace on [Cloud Platform](https://user-guide.cloud-platform.s
 
 To deploy the app to the production namespace do the following:
 
-- on the `main` branch.
-- create a new tag using `git tag vx.y.z` where `x.y.z` is the version number. Please follow [semantic versioning](https://semver.org/).
-- push the tag to the remote repository using `git push origin --tags`
+- Switch to the `main` branch and ensure it is up to date.
+- Create a new tag using `git tag vx.y.z` where `x.y.z` is the new version number, and the `v` prefix provides the match criterion to trigger deployment. Please follow [semantic versioning](https://semver.org/).
+- Push the tag to the remote repository using `git push origin --tags`
 
 This triggers the `deploy-to-prod` GitHub workflow to create a release and deploy the app to the production namespace.
 
