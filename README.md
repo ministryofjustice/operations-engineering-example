@@ -8,6 +8,8 @@ This repository contains an example application demonstrating Operations Enginee
 
 1. [Prerequisites](#prerequisites)
 1. [How to use](#how-to-use)
+1. [Updating dependencies](#updating-dependencies)
+1. [Generic settings](#generic-settings)
 1. [Deployment](#deployment)
 1. [Contributing](#contributing)
 1. [Contact](#contact)
@@ -47,6 +49,10 @@ We rely on naming conventions to facilitate use of this template. All Operations
 
 - Create Cloud Platform namespaces called  `<TEAM_NAME>-<NAME>-<ENV>` for example, `operations-engineering-example-dev` and `operations-engineering-example-prod` and link to the repo. Follow instructions here: [Creating a Cloud Platform environment](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/env-create.html#creating-a-cloud-platform-environment).
 - The app is available at `<TEAM_NAME>-<NAME>-<ENV>.cloud-platform.service.justice.gov.uk`
+
+### Updating dependencies
+
+This app is set up with dependabot to automatically raise PRs to update dependencies. Note that the `govuk-frontend` package version is hardcoded in `build.py` and `application/templates/components/base.html`, which must be updated manually if another version is required. The version of `govuk-frontend` is determined by the version of `govuk-frontend-jijna` set in the `requirements.txt` file. The current verison of `govuk-frontend` is recorded in `application/static/VERSION.txt`. For example, `govuk-frontend-jinja` 2.7.0 requires `govuk-frontend` 4.7.0.
 
 ### Generic settings
 
