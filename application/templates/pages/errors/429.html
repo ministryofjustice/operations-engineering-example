@@ -1,6 +1,8 @@
-{% extends "base.html" %}
+{% extends "components/base.html" %}
 
-{% block pageTitle %}Too many requests – {{config['SERVICE_NAME']}} – GOV.UK{% endblock %}
+{% block pageTitle %}
+    Too many requests – {{config['SERVICE_NAME']}} – GOV.UK (429 error)
+{% endblock %}
 
 {% set mainClasses = "govuk-main-wrapper--l" %}
 
