@@ -8,6 +8,8 @@ This repository contains an example application demonstrating Operations Enginee
 
 1. [Prerequisites](#prerequisites)
 1. [How to use](#how-to-use)
+1. [Updating dependencies](#updating-dependencies)
+1. [Generic settings](#generic-settings)
 1. [Deployment](#deployment)
 1. [Contributing](#contributing)
 1. [Contact](#contact)
@@ -48,6 +50,10 @@ We rely on naming conventions to facilitate use of this template. All Operations
 - Create Cloud Platform namespaces called  `<TEAM_NAME>-<NAME>-<ENV>` for example, `operations-engineering-example-dev` and `operations-engineering-example-prod` and link to the repo. Follow instructions here: [Creating a Cloud Platform environment](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/env-create.html#creating-a-cloud-platform-environment).
 - The app is available at `<TEAM_NAME>-<NAME>-<ENV>.cloud-platform.service.justice.gov.uk`
 
+### Updating dependencies
+
+This app is set up with dependabot to automatically raise PRs to update dependencies. Note that the `govuk-frontend` package version is hardcoded in `build.py` and `application/templates/components/base.html`, which must be updated manually if another version is required. The version of `govuk-frontend` is determined by the version of `govuk-frontend-jijna` set in the `requirements.txt` file. The current verison of `govuk-frontend` is recorded in `application/static/VERSION.txt`. For example, `govuk-frontend-jinja` 2.7.0 requires `govuk-frontend` 4.7.0.
+
 ### Generic settings
 
 The flask app itself is deliberately generically named `application` and does not need to be changed. If you choose to change it then corresponding changes are required in `build.py`, `Dockerfile`, `makefile` and possibly elsewhere. The app is hardcoded to run and listen on port `1551` as appuser `1051` (see `Dockerfile` and `compose.yaml`).
@@ -81,9 +87,9 @@ The production namespace on [Cloud Platform](https://user-guide.cloud-platform.s
 
 To deploy the app to the production namespace do the following:
 
-- on the `main` branch.
-- create a new tag using `git tag vx.y.z` where `x.y.z` is the version number. Please follow [semantic versioning](https://semver.org/).
-- push the tag to the remote repository using `git push origin --tags`
+- Switch to the `main` branch and ensure it is up to date.
+- Create a new tag using `git tag vx.y.z` where `x.y.z` is the new version number, and the `v` prefix provides the match criterion to trigger deployment. Please follow [semantic versioning](https://semver.org/).
+- Push the tag to the remote repository using `git push origin --tags`
 
 This triggers the `deploy-to-prod` GitHub workflow to create a release and deploy the app to the production namespace.
 

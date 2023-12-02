@@ -1,6 +1,8 @@
-{% extends "base.html" %}
+{% extends "components/base.html" %}
 
-{% block pageTitle %}Sorry, the service is unavailable – {{config['SERVICE_NAME']}} – GOV.UK{% endblock %}
+{% block pageTitle %}
+    Sorry, the service is unavailable – {{config['SERVICE_NAME']}} – GOV.UK (503 error)
+{% endblock %}
 
 {% set mainClasses = "govuk-main-wrapper--l" %}
 
