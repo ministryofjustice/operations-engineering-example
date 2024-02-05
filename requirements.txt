@@ -4,7 +4,7 @@ botocore~=1.32.4 # 1.29.159
 #cryptography~=41.0.3
 cssmin
 email_validator
-flask~=3.0.0
+flask~=3.0.2
 flask-assets
 flask-compress
 flask-cors~=4.0.0
