@@ -7,7 +7,7 @@ email_validator
 flask~=3.0.0
 flask-assets
 flask-compress
-flask-cors~=4.0.0
+flask-cors~=5.0.0
 flask-limiter
 flask-talisman
 govuk-frontend-jinja~=2.7.0
