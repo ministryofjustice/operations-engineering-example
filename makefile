@@ -8,12 +8,11 @@ help:
 	@echo "make local            - Run locally in Docker"
 
 setup:
-	python3 -m venv venv
-	@venv/bin/pip3 install --upgrade pip
-	@venv/bin/pip3 install -r requirements.txt
+	pip3 install pipenv
+	pipenv install --dev
 
 preview:
-	flask --app application/__init__ --debug run
+	pipenv run flask --app application/__init__ --debug run
 
 local:
 	docker compose up --build
