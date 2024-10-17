@@ -1,0 +1,29 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+boto3 = "~=1.29.4"
+botocore = "~=1.32.4"
+cssmin = "*"
+email-validator = "*"
+flask = "~=3.0.0"
+flask-assets = "*"
+flask-compress = "*"
+flask-cors = "~=5.0.0"
+flask-limiter = "*"
+flask-talisman = "*"
+govuk-frontend-jinja = "~=2.7.0"
+govuk-frontend-wtf = "*"
+gunicorn = "~=21.2.0"
+jinja2 = "~=3.1.2"
+jsmin = "*"
+python-dotenv = "~=1.0.0"
+pytest = "~=7.4.3"
+requests = "~=2.31.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
